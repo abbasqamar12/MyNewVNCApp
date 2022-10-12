@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <com.qamar.mynewvncapp.VncCanvas
+        android:id="@+id/vnc_canvas"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="bottom|center" />
+
+    <ZoomControls
+        android:id="@+id/zoomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center" />
+
+    <ImageView
+        android:id="@+id/txtKeyBoard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icons_keyboard"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/green"
+        android:text="key board" />
+
+</FrameLayout>

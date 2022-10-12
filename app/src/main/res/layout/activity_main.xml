@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/edtNickName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/bg_edt_text"
+        android:hint="@string/nick_name"
+        android:text="Antplay"
+        android:paddingStart="10dp" />
+
+    <EditText
+        android:id="@+id/edtUserName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/edtNickName"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/bg_edt_text"
+        android:hint="@string/nick_name"
+        android:text="Antplay"
+        android:paddingStart="10dp" />
+
+    <EditText
+        android:id="@+id/edtPassword"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/edtUserName"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/bg_edt_text"
+        android:hint="@string/password"
+        android:text="Antplay"
+        android:paddingStart="10dp" />
+
+
+    <EditText
+        android:id="@+id/edtIP"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/edtPassword"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/bg_edt_text"
+        android:hint="@string/ip_address"
+        android:text="103.125.201.181"
+        android:paddingStart="10dp" />
+
+    <EditText
+        android:id="@+id/edtPort"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/edtIP"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/bg_edt_text"
+        android:hint="@string/port"
+        android:paddingStart="10dp"
+        android:text="5900" />
+
+    <TextView
+        android:id="@+id/txtConnect"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/edtPort"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/bg_button"
+        android:gravity="center"
+        android:text="Connect"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/fab_icon"
+        android:elevation="5dp" />
+
+</RelativeLayout>
