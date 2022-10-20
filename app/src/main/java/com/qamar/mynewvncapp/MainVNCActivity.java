@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ActivityManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -14,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainVNCActivity extends AppCompatActivity implements View.OnClickListener {
     EditText edtNickName, edtUserName, edtPassword, edtIpAddress, edtPort;
     TextView txtConnect;
 
@@ -25,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.vnc_activity_main);
         edtNickName = findViewById(R.id.edtNickName);
         edtUserName = findViewById(R.id.edtUserName);
         edtPassword = findViewById(R.id.edtPassword);
@@ -139,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void vnc() {
         Log.d("VNC", "Open VNC");
         updateSelectedFromView();
-        saveAndWriteRecent();
+       // saveAndWriteRecent();
         Intent intent = new Intent(this, VncCanvasActivity.class);
         intent.putExtra(VncConstants.CONNECTION, selected.Gen_getValues());
         startActivity(intent);

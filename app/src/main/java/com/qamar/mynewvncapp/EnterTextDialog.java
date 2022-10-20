@@ -104,7 +104,7 @@ class EnterTextDialog extends Dialog {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.entertext);
+		setContentView(R.layout.vnc_entertext);
 		setTitle(R.string.enter_text_title);
 		_textEnterText = (EditText)findViewById(R.id.textEnterText);
 		_buttonNextEntry = (ImageButton)findViewById(R.id.buttonNextEntry);

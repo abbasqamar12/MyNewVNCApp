@@ -490,7 +490,7 @@ public class VncCanvas extends ImageView {
 		e.offsetLocation(0, -1f * getTop());
 
 		e.setLocation(absoluteXPosition + e.getX() / scale, absoluteYPosition + e.getY() / scale);
-		
+
 		return e;
 	}
 
@@ -655,6 +655,31 @@ public class VncCanvas extends ImageView {
 		bitmapData.scrollChanged(absoluteXPosition, absoluteYPosition);
 		mouseFollowPan();
 	}
+
+	/*@Override
+	public boolean onGenericMotionEvent(MotionEvent event) {
+		 super.onGenericMotionEvent(event);
+		warpMouse((int)event.getX(),(int)event.getY());
+
+		return true;
+	}*/
+
+
+/*****
+ * Method Name:- moveMouse()
+ * Arguments:- MotionEvent
+ * Return Type:- void
+ *
+ * Description:- This method is used for moving remote
+ * Machine mouse on hovering the mouse on the local screen
+ *
+ * Written by:- Qamar Abbas
+ *****/
+	public void moveMouse(MotionEvent event) {
+		super.onGenericMotionEvent(event);
+		warpMouse((int)event.getX(),(int)event.getY());
+	}
+
 
 	void handleRawRect(int x, int y, int w, int h) throws IOException {
 		handleRawRect(x, y, w, h, true);

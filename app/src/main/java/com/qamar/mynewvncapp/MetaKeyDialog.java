@@ -182,7 +182,7 @@ class MetaKeyDialog extends Dialog implements ConnectionSettable {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.metakey);
+		setContentView(R.layout.vnc_metakey);
 		setTitle(R.string.meta_key_title);
 		_checkShift = (CheckBox)findViewById(R.id.checkboxShift);
 		_checkCtrl = (CheckBox)findViewById(R.id.checkboxCtrl);

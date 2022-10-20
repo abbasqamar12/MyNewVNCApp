@@ -2,6 +2,7 @@ package com.qamar.mynewvncapp;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +10,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.PointF;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -23,15 +26,15 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import antlersoft.android.bc.BCFactory;
@@ -219,7 +222,9 @@ public class VncCanvasActivity extends Activity {
                 // compute the absolution new mouse pos on the remote site.
                 float newRemoteX = vncCanvas.mouseX + deltaX;
                 float newRemoteY = vncCanvas.mouseY + deltaY;
-
+               // vncCanvas.scrollToAbsolute();
+              //  Toast.makeText(VncCanvasActivity.this,"Dx: "+deltaX+"Dy: "+deltaY + "VNC X:"+vncCanvas.mouseX+"VNC Y:"+vncCanvas.mouseY,Toast.LENGTH_LONG).show();
+             //   e2.setLocation(newRemoteX, newRemoteY);
 
                 if (dragMode) {
                     if (e2.getAction() == MotionEvent.ACTION_UP)
@@ -527,7 +532,6 @@ public class VncCanvasActivity extends Activity {
     AbstractInputHandler inputHandler;
 
     VncCanvas vncCanvas;
-
     VncDatabase database;
 
     private MenuItem[] inputModeMenuItems;
@@ -542,7 +546,7 @@ public class VncCanvasActivity extends Activity {
 
     ZoomControls zoomer;
     Panner panner;
-    ImageView txtKeyBoard;
+    ImageView imgKeyboard;
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -618,11 +622,11 @@ public class VncCanvasActivity extends Activity {
                 connection.setAddress(host.substring(0, host.indexOf(':')));
             }
         }
-        setContentView(R.layout.canvas);
+        setContentView(R.layout.vnc_canvas);
 
         vncCanvas = (VncCanvas) findViewById(R.id.vnc_canvas);
         zoomer = (ZoomControls) findViewById(R.id.zoomer);
-        txtKeyBoard = (ImageView) findViewById(R.id.txtKeyBoard);
+        imgKeyboard = (ImageView) findViewById(R.id.txtKeyBoard);
 
 
         vncCanvas.initializeVncCanvas(connection, new Runnable() {
@@ -674,7 +678,7 @@ public class VncCanvasActivity extends Activity {
 
         });*/
 
-        txtKeyBoard.setOnClickListener(new View.OnClickListener() {
+        imgKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 InputMethodManager imm = (InputMethodManager)
@@ -684,9 +688,14 @@ public class VncCanvasActivity extends Activity {
         });
 
 
+
+
         panner = new Panner(this, vncCanvas.handler);
         inputHandler = getInputHandlerById(R.id.itemInputFitToScreen);
+
     }
+
+
 
     /**
      * Set modes on start to match what is specified in the ConnectionBean;
@@ -716,7 +725,7 @@ public class VncCanvasActivity extends Activity {
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-            case R.layout.entertext:
+            case R.layout.vnc_entertext:
                 return new EnterTextDialog(this);
         }
         // Default to meta key dialog
@@ -760,6 +769,9 @@ public class VncCanvasActivity extends Activity {
         vncCanvas.enableRepaints();
         super.onRestart();
     }
+
+
+
 
     /**
      * {@inheritDoc}
@@ -873,7 +885,7 @@ public class VncCanvasActivity extends Activity {
                 vncCanvas.showConnectionInfo();
                 return true;
             case R.id.itemSpecialKeys:
-                showDialog(R.layout.metakey);
+                showDialog(R.layout.vnc_metakey);
                 return true;
             case R.id.itemColorMode:
                 selectColorModel();
@@ -898,7 +910,7 @@ public class VncCanvasActivity extends Activity {
                 finish();
                 return true;
             case R.id.itemEnterText:
-                showDialog(R.layout.entertext);
+                showDialog(R.layout.vnc_entertext);
                 return true;
             case R.id.itemCtrlAltDel:
                 vncCanvas.sendMetaKey(MetaKeyBean.keyCtrlAltDel);
@@ -1032,6 +1044,15 @@ public class VncCanvasActivity extends Activity {
         }
         return inputHandler.onTrackballEvent(event);
     }
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        Toast.makeText(VncCanvasActivity.this,"X: "+event.getX()+" Y: "+event.getY(),Toast.LENGTH_LONG).show();
+        vncCanvas.moveMouse(event);
+
+        return super.onGenericMotionEvent(event);
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
