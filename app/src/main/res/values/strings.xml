@@ -4,7 +4,11 @@
     <string name="password">Password</string>
     <string name="ip_address">IP Address</string>
     <string name="port">Port</string>
-
+    <string name="ipAddress">10.250.51.110</string>
+    <string name="portaddress">5900</string>
+    <string name="usernames">Antplay-Pc</string>
+    <!--    <string name="passwords">test</string>-->
+    <string name="passwords">vms@abbas</string>
 
     <string name="address_caption">Address</string>
     <string name="alt_check">Alt</string>
@@ -88,4 +92,5 @@
     <string name="use_wake_lock_check">Use Wake Lock</string>
     <string name="username_caption">Username</string>
     <string name="username_hint">For Windows Authentication</string>
+    <string name="user_name">User Name</string>
 </resources>

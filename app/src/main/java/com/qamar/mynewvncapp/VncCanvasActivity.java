@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,11 +43,12 @@ import antlersoft.android.bc.BCFactory;
 public class VncCanvasActivity extends Activity {
 
     float dragX = 0, dragY = 0;
+
     /**
      * @author Michael A. MacDonald
      */
     class ZoomInputHandler extends AbstractGestureInputHandler {
-
+        private boolean mLeftDown = false, mRightDown = false, mMiddleDown = false;
         /**
          * In drag mode (entered with long press) you process mouse events
          * without sending them through the gesture detector
@@ -140,7 +142,7 @@ public class VncCanvasActivity extends Activity {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                float velocityY) {
-           // showZoomer(false);
+            // showZoomer(false);
             panner.start(-(velocityX / FLING_FACTOR),
                     -(velocityY / FLING_FACTOR), new Panner.VelocityUpdater() {
 
@@ -185,7 +187,7 @@ public class VncCanvasActivity extends Activity {
          */
         @Override
         public void onLongPress(MotionEvent e) {
-           // showZoomer(false);
+            // showZoomer(false);
             BCFactory.getInstance().getBCHaptic().performLongPressHaptic(
                     vncCanvas);
             dragMode = true;
@@ -222,9 +224,9 @@ public class VncCanvasActivity extends Activity {
                 // compute the absolution new mouse pos on the remote site.
                 float newRemoteX = vncCanvas.mouseX + deltaX;
                 float newRemoteY = vncCanvas.mouseY + deltaY;
-               // vncCanvas.scrollToAbsolute();
-              //  Toast.makeText(VncCanvasActivity.this,"Dx: "+deltaX+"Dy: "+deltaY + "VNC X:"+vncCanvas.mouseX+"VNC Y:"+vncCanvas.mouseY,Toast.LENGTH_LONG).show();
-             //   e2.setLocation(newRemoteX, newRemoteY);
+                // vncCanvas.scrollToAbsolute();
+                //  Toast.makeText(VncCanvasActivity.this,"Dx: "+deltaX+"Dy: "+deltaY + "VNC X:"+vncCanvas.mouseX+"VNC Y:"+vncCanvas.mouseY,Toast.LENGTH_LONG).show();
+                //   e2.setLocation(newRemoteX, newRemoteY);
 
                 if (dragMode) {
                     if (e2.getAction() == MotionEvent.ACTION_UP)
@@ -264,11 +266,41 @@ public class VncCanvasActivity extends Activity {
          * @see android.view.GestureDetector.SimpleOnGestureListener#onSingleTapConfirmed(android.view.MotionEvent)
          */
         @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            vncCanvas.changeTouchCoordinatesToFullFrame(e);
-            vncCanvas.processPointerEvent(e, true);
-            e.setAction(MotionEvent.ACTION_UP);
-            return vncCanvas.processPointerEvent(e, false);
+        public boolean onSingleTapConfirmed(MotionEvent event) {
+            Toast.makeText(VncCanvasActivity.this, "Is it Mouse : " + event.getSource() + " : " + InputDevice.SOURCE_MOUSE, Toast.LENGTH_LONG).show();
+            if (event.getSource() == InputDevice.SOURCE_MOUSE) {
+                boolean leftDown = event.isButtonPressed(MotionEvent.BUTTON_PRIMARY);
+                boolean rightDown = event.isButtonPressed(MotionEvent.BUTTON_SECONDARY);
+                boolean middleDown = event.isButtonPressed(MotionEvent.BUTTON_TERTIARY);
+
+                Toast.makeText(VncCanvasActivity.this, "Mouse Pressed : " + leftDown + " : " + rightDown + " : " + middleDown, Toast.LENGTH_LONG).show();
+                if (leftDown != mLeftDown) {
+                    // left button pressed or released
+                    Log.d("MOUSE_EVENT", "Left Button pressed : " + leftDown + " : " + mLeftDown);
+                    Toast.makeText(VncCanvasActivity.this, "Left Button pressed : " + leftDown + " : " + mLeftDown, Toast.LENGTH_LONG).show();
+                    mLeftDown = leftDown;
+                }
+
+                if (rightDown != mRightDown) {
+                    // right button pressed or released
+                    Log.d("MOUSE_EVENT", "Right Button pressed : " + rightDown + " : " + mRightDown);
+                    Toast.makeText(VncCanvasActivity.this, "Right Button pressed : " + rightDown + " : " + mRightDown, Toast.LENGTH_LONG).show();
+                    mRightDown = rightDown;
+                }
+
+                if (middleDown != mMiddleDown) {
+                    // middle button pressed or released
+                    Log.d("MOUSE_EVENT", "Middle Button pressed : " + middleDown + " : " + mMiddleDown);
+                    Toast.makeText(VncCanvasActivity.this, "Middle Button pressed : " + middleDown + " : " + mMiddleDown, Toast.LENGTH_LONG).show();
+                    mMiddleDown = middleDown;
+                }
+
+            }
+
+            vncCanvas.changeTouchCoordinatesToFullFrame(event);
+            vncCanvas.processPointerEvent(event, true);
+            event.setAction(MotionEvent.ACTION_UP);
+            return vncCanvas.processPointerEvent(event, false);
         }
 
         /*
@@ -278,6 +310,7 @@ public class VncCanvasActivity extends Activity {
          */
         @Override
         public boolean onDoubleTap(MotionEvent e) {
+            Toast.makeText(VncCanvasActivity.this, "Is it Mouse : yes, Double Tap", Toast.LENGTH_LONG).show();
             vncCanvas.changeTouchCoordinatesToFullFrame(e);
             vncCanvas.processPointerEvent(e, true, true);
             e.setAction(MotionEvent.ACTION_UP);
@@ -392,7 +425,7 @@ public class VncCanvasActivity extends Activity {
         public void onLongPress(MotionEvent e) {
 
 
-           // showZoomer(true);
+            // showZoomer(true);
             BCFactory.getInstance().getBCHaptic().performLongPressHaptic(
                     vncCanvas);
             dragMode = true;
@@ -417,7 +450,7 @@ public class VncCanvasActivity extends Activity {
             if (BCFactory.getInstance().getBCMotionEvent().getPointerCount(e2) > 1) {
                 if (inScaling)
                     return false;
-               // showZoomer(false);
+                // showZoomer(false);
                 return vncCanvas.pan((int) distanceX, (int) distanceY);
             } else {
                 // compute the relative movement offset on the remote screen.
@@ -644,7 +677,7 @@ public class VncCanvasActivity extends Activity {
              */
             @Override
             public void onClick(View v) {
-               // showZoomer(true);
+                // showZoomer(true);
                 vncCanvas.scaling.zoomIn(VncCanvasActivity.this);
 
             }
@@ -659,7 +692,7 @@ public class VncCanvasActivity extends Activity {
              */
             @Override
             public void onClick(View v) {
-               // showZoomer(true);
+                // showZoomer(true);
                 vncCanvas.scaling.zoomOut(VncCanvasActivity.this);
 
             }
@@ -688,13 +721,10 @@ public class VncCanvasActivity extends Activity {
         });
 
 
-
-
         panner = new Panner(this, vncCanvas.handler);
         inputHandler = getInputHandlerById(R.id.itemInputFitToScreen);
 
     }
-
 
 
     /**
@@ -769,8 +799,6 @@ public class VncCanvasActivity extends Activity {
         vncCanvas.enableRepaints();
         super.onRestart();
     }
-
-
 
 
     /**
@@ -1006,18 +1034,80 @@ public class VncCanvasActivity extends Activity {
         }
     }
 
-    @Override
+ /*   @Override
     public boolean onKeyDown(int keyCode, KeyEvent evt) {
         if (keyCode == KeyEvent.KEYCODE_MENU)
             return super.onKeyDown(keyCode, evt);
 
         return inputHandler.onKeyDown(keyCode, evt);
+    }*/
+
+
+    /*****
+     * Method Name:- onKeyDown()
+     * Arguments:- int keyCode, KeyEvent evt
+     * Return Type:- boolean
+     *
+     * Description:- This method is used for tracking the key press
+     *               and handling the events on the remote devices.
+     *
+     * Written/Modified by:- Qamar Abbas
+     *****/
+
+    boolean isCTRL_Clicked = false;
+    boolean isALT_Clicked = false;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent evt) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_FORWARD_DEL:
+                if (isCTRL_Clicked && isALT_Clicked) {
+                    vncCanvas.sendMetaKey(MetaKeyBean.keyCtrlAltDel);
+                }
+                break;
+            case KeyEvent.KEYCODE_CTRL_LEFT:
+                isCTRL_Clicked = true;
+                break;
+            case KeyEvent.KEYCODE_ALT_LEFT:
+                isALT_Clicked = true;
+                break;
+            case KeyEvent.KEYCODE_MENU:
+                return super.onKeyDown(keyCode, evt);
+            case KeyEvent.KEYCODE_ENTER:
+                // mouse left click
+
+            default:
+        }
+
+        return inputHandler.onKeyDown(keyCode, evt);
     }
+
+    /*****
+     * Method Name:- onKeyUp()
+     * Arguments:- int keyCode, KeyEvent evt
+     * Return Type:- boolean
+     *
+     * Description:- This method is used for tracking the key release
+     *               and handling the events on the remote devices.
+     *
+     * Written/Modified by:- Qamar Abbas
+     *****/
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent evt) {
-        if (keyCode == KeyEvent.KEYCODE_MENU)
-            return super.onKeyUp(keyCode, evt);
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_CTRL_LEFT:
+                isCTRL_Clicked = false;
+                break;
+            case KeyEvent.KEYCODE_ALT_LEFT:
+                isALT_Clicked = false;
+                break;
+            case KeyEvent.KEYCODE_MENU:
+                return super.onKeyUp(keyCode, evt);
+            default:
+        }
+      /*  if (keyCode == KeyEvent.KEYCODE_MENU)
+            return super.onKeyUp(keyCode, evt);*/
 
         return inputHandler.onKeyUp(keyCode, evt);
     }
@@ -1047,8 +1137,9 @@ public class VncCanvasActivity extends Activity {
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
-        Toast.makeText(VncCanvasActivity.this,"X: "+event.getX()+" Y: "+event.getY(),Toast.LENGTH_LONG).show();
+        // Toast.makeText(VncCanvasActivity.this,"X: "+event.getX()+" Y: "+event.getY(),Toast.LENGTH_LONG).show();
         vncCanvas.moveMouse(event);
+
 
         return super.onGenericMotionEvent(event);
     }

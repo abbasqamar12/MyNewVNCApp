@@ -77,19 +77,20 @@ public class MainVNCActivity extends AppCompatActivity implements View.OnClickLi
         if (selected == null) {
             // return;
         }
-        selected.setAddress(edtIpAddress.getText().toString());
+       // selected.setAddress(edtIpAddress.getText().toString());
+        selected.setAddress(Constt.IP_ADDRESS);
         Log.d("VNC", "IP : " + edtIpAddress.getText().toString());
         try {
-            selected.setPort(Integer.parseInt(edtPort.getText().toString()));
+            selected.setPort(Constt.PORT);
             Log.d("VNC", "Port : " + edtPort.getText().toString());
         } catch (NumberFormatException nfe) {
 
         }
         selected.setNickname(edtNickName.getText().toString());
         Log.d("VNC", "Nick Name : " + edtNickName.getText().toString());
-        selected.setUserName(edtUserName.getText().toString());
+        selected.setUserName(Constt.USERNAME);
         //  selected.setForceFull(groupForceFullScreen.getCheckedRadioButtonId()==R.id.radioForceFullScreenAuto ? BitmapImplHint.AUTO : (groupForceFullScreen.getCheckedRadioButtonId()==R.id.radioForceFullScreenOn ? BitmapImplHint.FULL : BitmapImplHint.TILE));
-        selected.setPassword(edtPassword.getText().toString());
+        selected.setPassword(Constt.PASSWORD);
         Log.d("VNC", "Password : " + edtPassword.getText().toString());
         // selected.setKeepPassword(checkboxKeepPassword.isChecked());
         selected.setKeepPassword(true);

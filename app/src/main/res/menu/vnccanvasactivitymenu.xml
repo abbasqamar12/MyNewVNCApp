@@ -29,7 +29,7 @@
                     android:title="@string/input_mode_touch_pan_zoom_mouse" />
                 <item
                     android:id="@+id/itemInputTouchpad"
-                    android:title="@string/input_mode_touchpad"></item>
+                    android:title="@string/input_mode_touchpad"/>
                 <item
                     android:id="@+id/itemInputFitToScreen"
                     android:checked="true"
@@ -55,7 +55,7 @@
         android:alphabeticShortcut="d"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
         android:numericShortcut="7"
-        android:title="@string/disconnect"></item>
+        android:title="@string/disconnect"/>
     <group android:checkableBehavior="all">
         <item
             android:id="@+id/itemFollowMouse"
@@ -71,7 +71,7 @@
         android:alphabeticShortcut="c"
         android:icon="@android:drawable/ic_menu_preferences"
         android:numericShortcut="3"
-        android:title="@string/color_mode"></item>
+        android:title="@string/color_mode"/>
     <item
         android:id="@+id/itemScaling"
         android:alphabeticShortcut="z"
@@ -106,7 +106,7 @@
         android:alphabeticShortcut="i"
         android:icon="@android:drawable/ic_menu_info_details"
         android:numericShortcut="9"
-        android:title="@string/info"></item>
+        android:title="@string/info"/>
     <item
         android:id="@+id/itemSendKeyAgain"
         android:alphabeticShortcut="g"
@@ -126,7 +126,7 @@
     <item
         android:id="@+id/itemArrowRight"
         android:alphabeticShortcut="l"
-        android:title="@string/arrow_right"></item>
+        android:title="@string/arrow_right"/>
     <item
         android:id="@+id/itemOpenDoc"
         android:icon="@android:drawable/ic_menu_help"

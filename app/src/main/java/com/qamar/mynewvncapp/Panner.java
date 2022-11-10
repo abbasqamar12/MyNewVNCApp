@@ -86,7 +86,7 @@ class Panner implements Runnable {
 		{
 			if (updater.updateVelocity(velocity, interval))
 			{
-				handler.postDelayed(this, 50);
+				handler.postDelayed(this, 20);//50
 			}
 			else
 			{
